@@ -3,7 +3,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+from django.utils.translation import gettext_lazy as _
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -26,8 +26,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
+    #packages
+    'taggit',
     'rest_framework',
     'drf_yasg',
+    'corsheaders',
+    'modeltranslation',
+
 ]
 
 MIDDLEWARE = [
@@ -36,6 +41,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -60,6 +68,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -108,11 +118,46 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+LOCALE_PATHS = (
+    BASE_DIR / "locale/",
+   
+)
+
+LANGUAGES = (
+    ("en", _("English")),
+    ("uz", _("Uzbek")),
+)
+
+LANGUAGE_CODE = "en"
+# This is where you can place additional static files for development
+# STATICFILES_DIRS = [
+#     BASE_DIR/'static'
+# ]
+
+# This is the directory where static files will be collected for production
+STATIC_ROOT =    BASE_DIR/'staticfiles'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+]
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    
+]
 
 MEDIA_URL = 'media/'
 
